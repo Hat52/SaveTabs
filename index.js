@@ -14,28 +14,59 @@ if (leadsFromLocalStorage) {
 tabBtn.addEventListener("click", function() {
     //chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {});
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-        myleads.push(tabs[0].url)
+        myleads.push(tabs[0])
         localStorage.setItem("myleads", JSON.stringify(myleads))
         render(myleads)
     })
 
 })
 
+function deleteItem(index){
+    console.log(index)
+}
 function render(leads) {
     let listItems = ulEl.innerHTML
+    while (ulEl.hasChildNodes()) {
+        ulEl.removeChild(ulEl.firstChild);
+       }
     listItems = ""
     for (let i = 0; i < leads.length; i++) {
-        listItems += `
-        <li>
-            <b>${i+1}-</b>
-            <a target= '_blank' href= '${leads[i]}' >
-            ${leads[i]}
-            </a>
-            <hr/>
-        </li>
-        `
+      var li = document.createElement("li");
+      var b =document.createElement("b")
+      var b_value = document.createTextNode(i+1)
+      b.appendChild(b_value)
+      var anchorTag = document.createElement("a")
+      anchorTag.setAttribute("href",leads[i])
+      anchorTag.target = "_blank"
+      anchorTag.innerHTML =leads[i]
+      var button = document.createElement("button")
+      button.onclick = ()=>deleteItem(i)
+      var i_tag = document.createElement("i")
+      i_tag.classList.add("fa")
+      i_tag.classList.add("fa-trash")
+      button.appendChild(i_tag)
+      button.classList.add("btn")
+      const hr = document.createElement("hr")
+      li.appendChild(b)
+      li.appendChild(anchorTag)
+      li.appendChild(button)
+      li.appendChild(hr)
+
+        // listItems += `
+        // <li onclick="deleteItem()">
+        //     <b>${i+1}-</b>
+        //     <a target= '_blank' href= '${leads[i]}' >
+        //     ${leads[i]}
+        //     </a>
+            
+        //     <button class="btn" id='btn${i}' onclick="deleteItem(i)"><i class="fa fa-trash" ></i></button>
+        //     <hr/>
+            
+        // </li>
+        // `
+        ulEl.appendChild(li)
     }
-    ulEl.innerHTML = listItems
+    // ulEl.innerHTML = listItems
 }
 
 deleteBtn.addEventListener("dblclick", function() {

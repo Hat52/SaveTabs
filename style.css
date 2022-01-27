@@ -45,3 +45,13 @@ a,b {
     text-decoration: none;
     color: #5f9341;
 }
+.fa-trash{
+    font-size:15px;
+    color:red;
+    margin-top: 5px;
+    float:right
+}
+.btn{
+    background-color:inherit;
+    border-color:inherit
+}
